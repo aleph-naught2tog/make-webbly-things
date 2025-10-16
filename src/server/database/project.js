@@ -383,7 +383,8 @@ export function suspendProject(project, reason, notes = ``) {
  * ...docs go here...
  */
 export async function touch(project) {
-  const { settings, ...p } = project;
+  // run touch() with a fresh record!
+  const p = getProject(project.id, false);
   Project.save(p);
   if (!portBindings[p.slug]) return runProject(project);
   scheduleScreenShot(project);

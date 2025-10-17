@@ -1,7 +1,7 @@
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 import * as Helpers from "../../helpers.js";
-import { isStarterProject } from "../database/project.js";
+import { getProject, isStarterProject } from "../database/project.js";
 
 const { scrubDateTime, ROOT_DIR, TESTING } = Helpers;
 const CONTENT_DIR = TESTING ? `.` : Helpers.CONTENT_DIR;
@@ -53,6 +53,13 @@ export function createRewindPoint(
   if (debounce) clearTimeout(debounce);
 
   COMMIT_TIMEOUTS[slug] = setTimeout(async () => {
+    try {
+      // first make sure this project still exists
+      getProject(project.id);
+    } catch (e) {
+      // nope, this project is gone. Cut this short.
+      return;
+    }
     console.log(`creating rewind point`);
     const cmd = `cd ${dir} && git add . && git commit --allow-empty -m "${reason}"`;
     console.log(`running:`, cmd);

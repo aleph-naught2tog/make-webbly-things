@@ -418,7 +418,7 @@ export async function updateProjectSettings(req, res, next) {
   const { lookups } = res.locals;
   const { project } = lookups;
   const { slug: projectSlug, settings } = project;
-  const { run_script, env_vars } = settings;
+  const { run_script, env_vars, app_type: oldAppType } = settings;
 
   // Set up the new settings object, using the
   // original project settings as fallback values:
@@ -432,7 +432,7 @@ export async function updateProjectSettings(req, res, next) {
   const newSlug = slugify(newName);
   const newDir = join(CONTENT_DIR, newSlug);
   const containerDir = join(newDir, `.container`);
-  const app_type = newSettings.app_type ?? settings.app_type;
+  const app_type = newSettings.app_type ?? oldAppType;
 
   if (projectSlug !== newSlug) {
     if (pathExists(newDir)) {
@@ -484,8 +484,14 @@ export async function updateProjectSettings(req, res, next) {
     }
 
     if (containerChange) {
-      stopContainer(projectSlug);
-      await runContainer(project);
+      const oldProject = { slug: projectSlug };
+      if (oldAppType === `docker`) {
+        stopContainer(oldProject);
+        await runContainer(project);
+      } else if (oldAppType === `static`) {
+        stopStaticServer(oldProject);
+        await runStaticServer(project);
+      }
     }
 
     next();

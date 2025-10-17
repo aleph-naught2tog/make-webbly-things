@@ -15,7 +15,7 @@ As an anonymous visitor, you can...
 
 - Load the landing page (obviously =D),
 - Sign up by picking a user name and primary authentication method (but note that signing in doesn't actually give you a "working" account, you first need to be approved by an admin), and
-- Load projects in the editor and see the code and site preview.
+- Load projects in the editor and see the code and site preview, including starter projects shown on the landing page.
 
 You won't be able to edit any code, but you can look at all every file that is visiable to not-project-members, and you can see the resulting site running in the "preview" (which is of course not a preview at all, that's just literally the live site).
 

@@ -1,0 +1,29 @@
+name: Continuous Integration Testing
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test_docker_system:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y caddy sqlite3 curl
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+          nvm install --lts
+
+      - name: Run first time setup
+        run: |
+          cp .env.ci .env
+          node setup -

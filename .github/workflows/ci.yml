@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test_docker_system:
+  test_first_time_setup:
     runs-on: ubuntu-latest
 
     steps:

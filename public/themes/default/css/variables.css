@@ -12,4 +12,50 @@
   --notice-dark-box-shadow: black;
   --notice-dark-text-shadow: black;
   --close-button-background: #e8e8e8;
+
+  /* PROFILE */
+  --bio-border-color: grey;
+  --bio-background: white;
+
+  /* cm6 */
+  --edit-dialog-background: rgba(0, 179, 128, 0.399);
+
+  /* admin */
+  --admin-enabled-button-box-shadow: lime;
+  --admin-enabling-button-background: red;
+  --admin-table-header-border-color: grey;
+
+  /* rewind */
+  --rewinding-file-tree-background: #00ffb71c;
+  --rewinding-rewind-background:#00ffcf;
+  --rewinding-cm-editor-background: #f001;
+  --rewinding-history-background: #00abff;
+
+  --history-point-background: white;
+  --history-point-border-color: black;
+  --history-point-callout-background: #44ffd8;
+  --history-point-callout-border-color: #3b3b3c;
+  --history-point-callout-text: black;
+  --history-point-callout-text-shadow: white;
+  --history-point-callout-box-shadow: white;
+
+  --history-selected-point-background: #ff00cb;
+  --history-selected-point-callout-background: #ff00b3;
+  --history-selected-point-callout-text: white;
+  --history-selected-point-callout-text-shadow: black;
+
+  /* three column */
+  --three-column-highlight-color: blue;
+  --column-background: white;
+  --divider-handle-background: white;
+  --divider-handle-color: orange;
+  --divider-handle-border-color: grey;
+  --divider-handle-hovered-background: #eee;
+  --divider-handle-dot-background: grey;
+  --divider-active-handle-background: #d0e4f0;
+  --three-column-footer-border-color: grey;
+  --three-column-footer-background: #44ffd8;
+  --three-column-footer-box-shadow: black;
+  --three-column-footer-link-color: black;
+  --three-column-footer-link-text-shadow: white;
 }

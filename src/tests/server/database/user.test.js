@@ -1,19 +1,12 @@
 import test, { after, afterEach, before, describe } from "node:test";
 import assert from "node:assert/strict";
-import { resolve, join } from "node:path";
-
 import * as User from "../../../server/database/user.js";
 import {
   initTestDatabase,
   concludeTesting,
   clearTestData,
 } from "../../../server/database/index.js";
-import { ROOT_DIR } from "../../../helpers.js";
 import { createAdminUser, createUser } from "../../test-helpers.js";
-
-import dotenv from "@dotenvx/dotenvx";
-const envPath = resolve(join(ROOT_DIR, `.env`));
-dotenv.config({ quiet: true, path: envPath });
 
 describe(`user tests`, async () => {
   before(async () => await initTestDatabase());

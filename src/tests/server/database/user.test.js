@@ -9,7 +9,7 @@ import {
   clearTestData,
 } from "../../../server/database/index.js";
 import { ROOT_DIR } from "../../../helpers.js";
-import { createAdminUser, createUser } from "./test-helpers.js";
+import { createAdminUser, createUser } from "../../test-helpers.js";
 
 import dotenv from "@dotenvx/dotenvx";
 const envPath = resolve(join(ROOT_DIR, `.env`));

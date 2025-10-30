@@ -14,21 +14,6 @@ import dotenv from "@dotenvx/dotenvx";
 const envPath = resolve(join(ROOT_DIR, `.env`));
 dotenv.config({ quiet: true, path: envPath });
 
-/**
- * @typedef {Object} User
- * @property {number} id
- * @property {string} name
- * @property {string} slug
- * @property {string} created_at
- * @property {string} enabled_at
- * @property {string} bio
- */
-
-/**
- * Creates a user with a random, unique name
- *
- * @returns {User} the created user
- */
 const createUser = () => {
   const username = randomUUID();
   const user = Models.User.create({ name: username });
@@ -36,11 +21,6 @@ const createUser = () => {
   return user;
 };
 
-/**
- * Creates an admin user
- *
- * @returns {User} the admin user
- */
 const createAdminUser = () => {
   const user = createUser();
 

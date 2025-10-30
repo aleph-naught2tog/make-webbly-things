@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { join } from "node:path";
 import { processUserSignup, processUserLogin } from "../../database/index.js";
 
 import { passport } from "./middleware.js";
@@ -27,14 +26,9 @@ import {
   getServiceDomain,
 } from "./settings.js";
 
-// Explicit env loading as we rely on process.env
-// at the module's top level scope...
-import dotenv from "@dotenvx/dotenvx";
 import { addLoginProviderForUser } from "../../database/user.js";
 import { bindCommonValues, verifyLogin } from "../middleware.js";
 import { randomUUID } from "node:crypto";
-const envPath = join(import.meta.dirname, `../../../../.env`);
-dotenv.config({ path: envPath, quiet: true });
 const { WEB_EDITOR_HOSTNAME } = process.env;
 
 const PERSONAL_LINK_TTL = 12 * 3600 * 1000; // 12h in milliseconds

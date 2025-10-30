@@ -7,8 +7,8 @@ export function createUser(name = randomUUID()) {
   return user;
 }
 
-export function createAdminUser() {
-  const user = createUser();
+export function createAdminUser(slug) {
+  const user = createUser(slug);
 
   Models.Admin.create({ user_id: user.id });
 

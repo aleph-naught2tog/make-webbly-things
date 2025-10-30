@@ -189,6 +189,7 @@ export function clearTestData() {
  * @returns
  */
 export function concludeTesting() {
+  if (!TESTING) return;
   clearTestData();
   db.close();
 }

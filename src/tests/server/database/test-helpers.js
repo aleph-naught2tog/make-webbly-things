@@ -1,9 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { Models } from "../../../server/database/index.js";
 
-export function createUser() {
-  const username = randomUUID();
-  const user = Models.User.create({ name: username });
+export function createUser(name = randomUUID()) {
+  const user = Models.User.create({ name });
 
   return user;
 }

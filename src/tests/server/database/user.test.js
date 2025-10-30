@@ -31,14 +31,13 @@ describe(`user tests`, async () => {
 
   test(`enable/disable`, () => {
     let user = createUser();
-    const username = user.name;
 
-    User.enableUser(user);
-    user = User.getUser(username);
+    User.enableUser(user.id);
+    user = User.getUser(user.id);
     assert.notEqual(user.enabled_at, null);
 
     User.disableUser(user);
-    user = User.getUser(username);
+    user = User.getUser(user.id);
     assert.equal(user.enabled_at, null);
   });
 

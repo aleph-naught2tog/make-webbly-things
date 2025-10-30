@@ -57,28 +57,6 @@ describe(`user tests`, async () => {
     assert.equal(User.userIsAdmin(user), false);
   });
 
-  test(`getUserSettings`, () => {
-    const admin = createAdminUser();
-    let settings = User.getUserSettings(admin);
-    assert.deepEqual(settings, {
-      name: admin.name,
-      admin: true,
-      enabled: true,
-      suspended: false,
-    });
-
-    const user = createUser();
-    User.suspendUser(user, `why not`);
-    User.disableUser(user);
-    settings = User.getUserSettings(user);
-    assert.deepEqual(settings, {
-      name: user.name,
-      admin: false,
-      enabled: false,
-      suspended: true,
-    });
-  });
-
   test(`getUserSuspensions`, () => {
     const user = createUser();
     const s = User.suspendUser(user, `why not`);

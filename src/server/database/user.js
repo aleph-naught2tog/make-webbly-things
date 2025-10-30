@@ -259,10 +259,6 @@ export function userIsAdmin(user) {
   return true;
 }
 
-/**
- * @param {User} user
- * @returns {UserSettings} the settings associated with that user
- */
 export function getUserSettings(user) {
   const s = UserSuspension.find({ user_id: user.id });
   const a = Admin.find({ user_id: user.id });

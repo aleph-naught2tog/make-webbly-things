@@ -32,7 +32,7 @@ describe(`user tests`, async () => {
   test(`enable/disable`, () => {
     let user = createUser();
 
-    User.enableUser(user.id);
+    User.enableUser(user);
     user = User.getUser(user.id);
     assert.notEqual(user.enabled_at, null);
 

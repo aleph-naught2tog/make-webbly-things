@@ -1,33 +1,19 @@
 import test, { after, afterEach, before, describe } from "node:test";
 import assert from "node:assert/strict";
 import { resolve, join } from "node:path";
-import { randomUUID } from "node:crypto";
+
 import * as User from "../../../server/database/user.js";
 import {
   initTestDatabase,
   concludeTesting,
   clearTestData,
-  Models,
 } from "../../../server/database/index.js";
 import { ROOT_DIR } from "../../../helpers.js";
+import { createAdminUser, createUser } from './test-helpers.js';
+
 import dotenv from "@dotenvx/dotenvx";
 const envPath = resolve(join(ROOT_DIR, `.env`));
 dotenv.config({ quiet: true, path: envPath });
-
-const createUser = () => {
-  const username = randomUUID();
-  const user = Models.User.create({ name: username });
-
-  return user;
-};
-
-const createAdminUser = () => {
-  const user = createUser();
-
-  Models.Admin.create({ user_id: user.id });
-
-  return user;
-};
 
 describe(`user tests`, async () => {
   before(async () => await initTestDatabase());

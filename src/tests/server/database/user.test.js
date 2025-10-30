@@ -50,7 +50,7 @@ describe(`user tests`, async () => {
   });
 
   test(`userIsAdmin`, () => {
-    const admin = createAdminUser();
+    const admin = createAdminUser(`test-admin`);
     const user = createUser();
 
     assert.equal(User.userIsAdmin(admin), true);
@@ -69,7 +69,7 @@ describe(`user tests`, async () => {
   });
 
   test(`hasAccessToUserRecords`, () => {
-    const admin = createAdminUser();
+    const admin = createAdminUser(`test-admin`);
     const user = createUser();
     const rando = createUser();
 

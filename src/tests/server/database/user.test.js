@@ -49,7 +49,7 @@ describe(`user tests`, async () => {
   });
 
   test(`userIsAdmin`, () => {
-    const admin = createAdminUser(`test-admin`);
+    const admin = createAdminUser();
     const user = createUser();
 
     assert.equal(User.userIsAdmin(admin), true);

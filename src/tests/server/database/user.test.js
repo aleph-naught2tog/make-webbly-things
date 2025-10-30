@@ -43,8 +43,8 @@ describe(`user tests`, async () => {
   });
 
   test(`getAllUsers`, () => {
-    createUser();
-    createUser();
+    createUser(`test-user-1`);
+    createUser(`test-user-2`);
     const users = User.getAllUsers();
     assert.equal(users.length, 2);
   });
@@ -70,8 +70,8 @@ describe(`user tests`, async () => {
 
   test(`hasAccessToUserRecords`, () => {
     const admin = createAdminUser(`test-admin`);
-    const user = createUser();
-    const rando = createUser();
+    const user = createUser(`test-user`);
+    const rando = createUser(`random-user`);
 
     assert.equal(User.hasAccessToUserRecords(user, user), true);
     assert.equal(User.hasAccessToUserRecords(admin, user), true);

@@ -260,14 +260,6 @@ export function userIsAdmin(user) {
 }
 
 /**
- * @typedef {Object} UserSettings
- * @property {string} name
- * @property {boolean} admin
- * @property {boolean} enabled
- * @property {boolean} suspended
- */
-
-/**
  * @param {User} user
  * @returns {UserSettings} the settings associated with that user
  */

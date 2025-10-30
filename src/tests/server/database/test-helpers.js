@@ -1,5 +1,5 @@
-import { randomUUID } from 'node:crypto';
-import { Models } from '../../../server/database/index.js';
+import { randomUUID } from "node:crypto";
+import { Models } from "../../../server/database/index.js";
 
 export function createUser() {
   const username = randomUUID();

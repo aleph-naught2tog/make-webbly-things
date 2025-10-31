@@ -1,2 +1,2 @@
-FROM pomax-base-image:latest
+FROM local-base-image:latest
 CMD sh .container/run.sh

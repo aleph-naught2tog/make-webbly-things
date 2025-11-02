@@ -1,0 +1,146 @@
+:root {
+  --rewinding-history-background: #00abff;
+  --rewinding-file-tree-background: #00ffb71c;
+
+  --rewinding-rewind-background: #00ffcf;
+  --editor-utilities-button-box-shadow: #00ffcf;
+
+  --editor-file-color: #222;
+
+  --editor-utilities-button-border-color: #30ae97;
+
+  --file-tree-drop-color: #333;
+  --editor-active-tab-text: #333;
+  --heading-color: #333;
+
+  --history-point-callout-border-color: #3b3b3c;
+
+  --file-tree-border: #444;
+  --editor-clear-button-border-color: #444;
+
+  --history-point-callout-background: #44ffd8;
+  --three-column-footer-background: #44ffd8;
+
+  --editor-button-border-color: #555;
+
+  --editor-utilities-bar-background: #662584;
+  --editor-project-name-background: #662584;
+
+  --editor-dir-color: #666;
+  --editor-unhovered-li: #666;
+  --li-header-border-color: #666;
+
+  --editor-clear-button-text: #999;
+
+  --notice-info-background: #99ffaf;
+
+  --file-tree-drop-background: #cceeff44;
+
+  --divider-active-handle-background: #d0e4f0;
+
+  --notice-error-background: #db3939;
+
+  --editor-tab-close-background: #e2bc491f;
+
+  --editor-active-tab-background: #e3f6ff;
+
+  --editor-moving-tab-background: #e7e3ff;
+
+  --close-button-background: #e8e8e8;
+
+  --notice-light-text-shadow: #ececec;
+  --graphics-element-table-slider-wrapper-background: #ececec;
+
+  --divider-handle-hovered-background: #eee;
+
+  --rewinding-cm-editor-background: #f001;
+
+  --home-background: #fbdd85;
+
+  --preview-restarting-iframe-background: #fde;
+
+  --history-selected-point-callout-background: #ff00b3;
+
+  --history-selected-point-background: #ff00cb;
+
+  --body-box-shadow: #ff8300;
+
+  --notice-warning-background: #fff2aa;
+
+  --body-background: #fff4d9;
+
+  --li-background: #fffdfa;
+
+  --black: black;
+  --notice-light-box-shadow: black;
+  --notice-dark-box-shadow: black;
+  --notice-dark-text-shadow: black;
+  --history-point-border-color: black;
+  --history-point-callout-text: black;
+  --history-selected-point-callout-text-shadow: black;
+  --three-column-footer-box-shadow: black;
+  --three-column-footer-link-color: black;
+  --editor-nav-top-text: black;
+  --editor-project-name-text-shadow: black;
+  --editor-tab-border-color: black;
+  --heading-border-color: black;
+  --li-border-color: black;
+
+  --three-column-highlight-color: blue;
+  --li-edit-project-settings-button-background: blue;
+
+  --editor-active-button-background: darkgreen;
+  --editor-active-button-active-color: darkgreen;
+
+  --editor-tab-close-border-color: gray;
+  --preview-group-border-color: gray;
+  --bio-border-color: grey;
+  --admin-table-header-border-color: grey;
+  --divider-handle-border-color: grey;
+  --divider-handle-dot-background: grey;
+  --three-column-footer-border-color: grey;
+  --editors-group-border-color: grey;
+  --li-iframe-border-color: grey;
+  --li-screenshot-border-color: grey;
+  --li-date-color: grey;
+
+  --editor-active-button-border-color: green;
+
+  --admin-enabled-button-box-shadow: lime;
+
+  --divider-handle-color: orange;
+
+  --admin-enabling-button-background: red;
+  --revised-file-entry-text: red;
+  --editor-tab-close-hovered-background: red;
+  --username-input-taken-border-color: red;
+  --li-delete-project-button-background: red;
+
+  --editor-active-button-hovered-background: rgb(0, 50, 0);
+
+  --edit-dialog-background: rgba(0, 179, 128, 0.399);
+
+  --username-input-taken-background: rgba(255, 0, 0, 0.2);
+
+  --white: white;
+  --bio-background: white;
+  --history-point-background: white;
+  --history-point-callout-text-shadow: white;
+  --history-point-callout-box-shadow: white;
+  --history-selected-point-callout-text: white;
+  --column-background: white;
+  --divider-handle-background: white;
+  --three-column-footer-link-text-shadow: white;
+  --editor-nav-top-background: white;
+  --editor-utilities-button-background: white;
+  --editor-project-name-text: white;
+  --editor-tab-close-hovered-color: white;
+  --editor-active-button-color: white;
+  --editor-active-button-active-background: white;
+  --heading-background: white;
+  --li-header-background: white;
+  --li-iframe-background: white;
+  --li-edit-project-settings-button-color: white;
+  --li-delete-project-button-color: white;
+  --preview-group-background: white;
+}

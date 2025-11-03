@@ -1,9 +1,9 @@
 :root {
   --rewinding-history-background: #00abff;
   --rewinding-file-tree-background: #00ffb71c;
-
+/*
   --rewinding-rewind-background: #00ffcf;
-  --editor-utilities-button-box-shadow: #00ffcf;
+  --editor-utilities-button-box-shadow: #00ffcf; */
 
   --editor-file-color: #222;
 
@@ -18,6 +18,8 @@
   --file-tree-border: #444;
   --editor-clear-button-border-color: #444;
 
+  --rewinding-rewind-background: #00ffcf;
+  --editor-utilities-button-box-shadow: #00ffcf;
   --history-point-callout-background: #44ffd8;
   --three-column-footer-background: #44ffd8;
 

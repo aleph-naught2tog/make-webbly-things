@@ -37,6 +37,10 @@ export { db };
 
 /**
  * Generic "run me this SQL" function, because sometimes you need complex queries.
+ *
+ * @param {string} sql
+ * @param {any[]} values
+ * @returns {any[]}
  */
 export function runQuery(sql, values = []) {
   if (DEBUG_SQL) console.log(`RUN QUERY`, sql, values);
@@ -49,9 +53,22 @@ export function runQuery(sql, values = []) {
 }
 
 /**
+ * @typedef {Record<string, any> & {updated_at: string; created_at: string}} ModelType
+ */
+
+/**
  * Let's define a generic model class, because we're just making things work right now.
+ *
+ * @template {ModelType} M
+ *
+ * @property {string} table
+ * @property {string} primaryKey
  */
 class Model {
+  /**
+   * @param {string} table
+   * @param {string} [primaryKey=`id`]
+   */
   constructor(table, primaryKey = `id`) {
     this.table = table;
     this.primaryKey = primaryKey;
@@ -61,18 +78,26 @@ class Model {
    * Get me all records. You get a choice in ordering, but
    * you probably want to make sure that you're not using
    * this with a million-row table or the like =D
+   *
+   * @param {string | string[]} [sortKeys]
+   * @param {string} [sortDir=`ASC`]
+   * @returns {M[]}
    */
   all(sortKeys, sortDir = `ASC`) {
-    if (sortKeys && !sortKeys.map) sortKeys = [sortKeys];
     let sql = `SELECT * FROM ${this.table}`;
     if (sortKeys) {
+      if (!Array.isArray(sortKeys)) sortKeys = [sortKeys];
       sql = `${sql} ORDER BY ${sortKeys.join(`,`)} ${sortDir}`;
     }
     try {
-      return db.prepare(sql).all();
+      const result = /** @type {ReturnType<typeof db.prepare<any,M>>} */ (
+        db.prepare(sql)
+      ).all([]);
+      return result;
     } catch (e) {
-      console.error(`ALL ERROR:`, e, { sql, values });
+      console.error(`ALL ERROR:`, e, { sql });
     }
+    return [];
   }
 
   /**
@@ -80,6 +105,9 @@ class Model {
    * make sure you're not trying to create a record that already
    * exists. If that happens, you generally want to update your
    * code to use findOrCreate instead in that codepath.
+   *
+   * @param {Partial<M>} [where={}]
+   * @returns {M | undefined}
    */
   create(where = {}) {
     if (DEBUG_SQL) console.log(`CREATE with`, where);
@@ -95,6 +123,8 @@ class Model {
    * because if you didn't, your table WILL BE EMPTY after
    * this call completes, which is almost certainly not what
    * you were trying to do!!!
+   *
+   * @param {Partial<M>} where
    */
   delete(where) {
     const { filter, values } = composeWhere(where);
@@ -109,6 +139,9 @@ class Model {
 
   /**
    * This one should be self-explanatory. Find a record.
+   *
+   * @param {Partial<M>} where
+   * @returns {M | undefined}
    */
   find(where) {
     return this.findAll(where)[0];
@@ -116,17 +149,27 @@ class Model {
 
   /**
    * This all records that match our where criteria.
+   *
+   * @param {Partial<M>} where
+   * @param {string | string[]} [sortKeys]
+   * @param {string} [sortDir=`ASC`]
+   * @returns {M[]}
    */
   findAll(where, sortKeys, sortDir = `ASC`) {
-    if (sortKeys && !sortKeys.map) sortKeys = [sortKeys];
     const { filter, values } = composeWhere(where);
     let sql = `SELECT * FROM ${this.table} WHERE ${filter}`;
     if (sortKeys) {
+      if (!Array.isArray(sortKeys)) sortKeys = [sortKeys];
       sql = `${sql} ORDER BY ${sortKeys.join(`,`)} ${sortDir}`;
     }
     if (DEBUG_SQL) console.log(`FIND ALL`, sql, values);
     try {
-      return db.prepare(sql).all(values).filter(Boolean);
+      const result = /** @type {ReturnType<typeof db.prepare<object,M>>} */ (
+        db.prepare(sql)
+      )
+        .all(values)
+        .filter(Boolean);
+      return result;
     } catch (e) {
       console.error(`FIND ALL ERROR:`, e, { sql, values });
     }
@@ -135,6 +178,8 @@ class Model {
 
   /**
    * Does what it says in the function name.
+   *
+   * @param {Partial<M>} [where={}]
    */
   findOrCreate(where = {}) {
     const row = this.find(where);
@@ -147,6 +192,9 @@ class Model {
    * Insert a record into this table, using the column values
    * in the colVals object. Columns that, in the database, have
    * a default value may be left off.
+   *
+   * @param {Partial<M>} colVals
+   * @returns {void}
    */
   insert(colVals) {
     const keys = Object.keys(colVals);
@@ -165,6 +213,8 @@ class Model {
   /**
    * Save a record - if the primary key is not "id", you
    * will need to explicitly specify it as second argument.
+   *
+   * @param {Partial<M>} record
    */
   save(record) {
     const { primaryKey } = this;

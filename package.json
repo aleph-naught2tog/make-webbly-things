@@ -60,5 +60,9 @@
     "prettier-plugin-jinja-template": "^2.1.0",
     "ubase.js": "^1.0.3",
     "ws": "^8.18.3"
+  },
+  "optionalDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.0"
   }
 }

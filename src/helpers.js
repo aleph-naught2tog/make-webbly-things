@@ -1,12 +1,12 @@
-import net from "node:net";
-import { join, resolve, sep, posix } from "node:path";
-import { exec } from "node:child_process";
-import { existsSync, globSync, lstatSync, readFileSync } from "node:fs";
-import * as AuthSettings from "./server/routing/auth/settings.js";
-import express from "express";
-import nocache from "nocache";
-import helmet from "helmet";
-import asciify from "any-ascii";
+import net from 'node:net';
+import { join, resolve, sep, posix } from 'node:path';
+import { exec } from 'node:child_process';
+import { existsSync, globSync, lstatSync, readFileSync } from 'node:fs';
+import * as AuthSettings from './server/routing/auth/settings.js';
+import express from 'express';
+import nocache from 'nocache';
+import helmet from 'helmet';
+import asciify from 'any-ascii';
 
 export const TESTING = process.env.NODE_ENV === `TESTING`;
 export const isWindows = process.platform === `win32`;
@@ -41,13 +41,17 @@ const CSP_DIRECTIVES = {
 
 /**
  * A little wrapper that turns exec() into an async rather than callback call.
+ *
+ * @param {string} command
+ * @param {{ cwd?: string }} [options={}]
+ * @returns {Promise<string>}
  */
 export async function execPromise(command, options = {}) {
   return new Promise((resolve, reject) =>
     exec(command, options, (err, stdout, stderr) => {
       if (err) return reject(stderr);
       resolve(stdout.trim());
-    }),
+    })
   );
 }
 
@@ -56,6 +60,10 @@ export async function execPromise(command, options = {}) {
  * We don't need cryptographically secure, we're just need it to tell
  * whether a file on-disk and the same file in the browser differ, and
  * if they're not, the browser simply redownloads the file.
+ *
+ * @param {string} dir
+ * @param {string} filename
+ * @param {boolean} [noFill=false]
  */
 export function getFileSum(dir, filename, noFill = false) {
   const filepath = noFill ? filename : `${dir}/${filename}`;
@@ -65,6 +73,8 @@ export function getFileSum(dir, filename, noFill = false) {
 
 /**
  * Used for docker bindings
+ *
+ * @returns {Promise<number>}
  */
 export function getFreePort() {
   return new Promise((resolve, reject) => {
@@ -82,6 +92,9 @@ export function getFreePort() {
  * for a file that doesn't exist may report
  * "true" if that file eventually gets written
  * and I have no idea why. Super fun bug.
+ *
+ * @param {string} path
+ * @returns {boolean}
  */
 export function pathExists(path) {
   try {
@@ -94,6 +107,11 @@ export function pathExists(path) {
 
 /**
  * Ask the OS for a flat dir listing.
+ *
+ * @param {string} dir
+ * @param {string} fileMatcher
+ * @param {string[]} excludes
+ * @returns {{dirs: string[], files: string[]}}
  */
 export function readContentDir(dir, fileMatcher = `*`, excludes = []) {
   let dirs = [];
@@ -123,24 +141,32 @@ export function readContentDir(dir, fileMatcher = `*`, excludes = []) {
 
 /**
  * ...docs go here...
+ *
+ * @param {string} text
+ * @returns {string}
  */
-
 export function safify(text) {
   return text.replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`);
 }
 
 /**
  * ...docs go here...
+ *
+ * @param {string} datetime
+ * @returns {string}
  */
 export function scrubDateTime(datetime) {
   return datetime.replace(`T`, ` `).replace(`Z`, ``).replace(/\.\d+/, ``);
 }
 
+// NOTE: we could use the official App type here, but this is more minimal?
 /**
  * ...docs go here...
+ * @param {{ set(key: string, value: any): void; use(handler: (req, res, next: (error?: any) => void) => void): void}} app
+ * @returns {void}
  */
 export function setDefaultAspects(app) {
-  app.set("etag", false);
+  app.set('etag', false);
   app.use(nocache());
   app.use(express.urlencoded({ extended: true }));
   const directives = structuredClone(CSP_DIRECTIVES);
@@ -150,6 +176,9 @@ export function setDefaultAspects(app) {
 
 /**
  * Make git not guess at the name and email for commits.
+ *
+ * @param {string} dir
+ * @param {string} projectSlug
  */
 export async function setupGit(dir, projectSlug) {
   for (const cfg of [
@@ -163,6 +192,9 @@ export async function setupGit(dir, projectSlug) {
 
 /**
  * ...docs go here...
+ *
+ * @param {string} text
+ * @returns {string} the slug created from the text
  */
 export function slugify(text) {
   text = text.replaceAll(`/`, `-`).replaceAll(`.`, ``);
@@ -172,7 +204,7 @@ export function slugify(text) {
     .replace(/[<._>]/g, ``)
     .replace(
       /[\u0021-\u002C\u002E-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u00BF]+/g,
-      ``,
+      ``
     )
     .replace(/×/g, `x`)
     .replace(/÷/g, ``)

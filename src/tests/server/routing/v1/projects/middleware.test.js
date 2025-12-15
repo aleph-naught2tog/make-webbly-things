@@ -1,10 +1,11 @@
-import test, { after, before, describe } from "node:test";
+import test, { after, before, beforeEach, describe } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import {
   initTestDatabase,
   concludeTesting,
+  clearTestData,
 } from "../../../../../server/database/index.js";
 import * as Middleware from "../../../../../server/routing/v1/projects/middleware.js";
 import * as FileMiddleware from "../../../../../server/routing/v1/files/middleware.js";
@@ -21,11 +22,13 @@ const FORCE_CLEANUP = true;
 
 describe(`project middlerware tests`, async () => {
   before(async () => await initTestDatabase());
+  beforeEach(() => clearTestData());
   after(() => {
     concludeTesting();
     closeReader();
   });
 
+  // FIXME: This test has flaked 2 times so far, see: https://github.com/Pomax/make-webbly-things/issues/211
   test(`checkProjectHealth`, async () => {
     const { res, cleanup } = await createDockerProject();
     await new Promise((resolve) => {
@@ -135,6 +138,40 @@ describe(`project middlerware tests`, async () => {
         // And then clean up the remix
         res.locals.lookups.project = res.locals.newProject;
         Middleware.deleteProject(req, res, () => resolve());
+      });
+    });
+  });
+
+  test(`remixProject (multiple times)`, async () => {
+    const { res, cleanup } = await createDockerProject(WITHOUT_RUNNING);
+    const user = res.locals.user;
+    const project = res.locals.lookups.project;
+    let r1, r2;
+
+    await new Promise((resolve) => {
+      Middleware.remixProject(null, res, async (err) => {
+        assert.equal(!!err, false);
+        r1 = res.locals.newProject;
+        const remixSlug = `${user.slug}-${project.slug}`;
+        assert.equal(r1.slug, remixSlug);
+
+        Middleware.remixProject(null, res, async (err) => {
+          assert.equal(!!err, false);
+          r2 = res.locals.newProject;
+          assert.equal(r2.slug, `${remixSlug}-2`);
+
+          // Then clean up the original project
+          await cleanup(FORCE_CLEANUP);
+
+          // And clean up the remixes:
+          res.locals.lookups.project = r1;
+          Middleware.deleteProject(null, res, () => {
+            res.locals.lookups.project = r2;
+            Middleware.deleteProject(null, res, () => {
+              resolve();
+            });
+          });
+        });
       });
     });
   });

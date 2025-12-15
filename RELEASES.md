@@ -1,5 +1,23 @@
 # Release notes
 
+## version 1.10 and 1.10.1 (6 December 2025)
+
+This release adds support for `podman` as a Docker alternative, along with a new `DOCKER_EXECUTABLE` environment variable that is used to determine which command to start/stop containers with.
+
+As always, remember to run `node setup`, especially as in this case you will be asked to provide a value for the above variable.
+
+Note that the `1.10.1` patch update is a security update that doesn't impact production, but may impact local development as it pertains to a CVE related to the passport-magic-link package, which is not used in production.
+
+## version 1.9 (11 November 2025)
+
+This release adds several new features:
+
+1. Users can now generate "direct login" links on their profile page, which can be used to log into the platform on devices that may not have third party logins saved in any browser.
+1. Starter projects now show up on the homepage, so folks can see what's on offer beyond user-generated content.
+1. Users can now examine the run logs for their project while in the editor, allowing for a much better insight into what their code is doing server-side (especially when it's not doing what it's supposed to!)
+
+This release also includes numerous improvements for developers, with improved linting and code formatting, tests, and CI testing for pull requests filed via GitHub.
+
 ## version 1.8 (15 October 2025)
 
 This release adds a dedicated "superuser" flag for admins, so that they can use the system like any other user unless and until they turn on superuser mode on the admin page. With superuser turned off, loading someone else's project will show you the same things, with the same edit rights, as any other authenticated user would see. However, with superuser turned on, admins can edit files, update project settings, etc. as if they were that project's owner.
@@ -38,6 +56,6 @@ This release also fixes a typo in the basic html starter project.
 
 This release has no public-facing changes, and is instead a refactor of the client-side code that handles creating and toggling editors for files, allowing for easier future development, and paying off tech debt.
 
-## verion 1.0 (undated)
+## version 1.0 (undated)
 
 This was an untagged release. All platform changes in this and older versions are commit based, rather than being versioned.

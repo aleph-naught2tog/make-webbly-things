@@ -10,11 +10,13 @@ import { CONTENT_DIR, scrubDateTime } from "../helpers.js";
 
 import { stdin } from "../setup/utils.js";
 
+const TEST_PREFIX = `test-suite-docker-project`;
+
 /**
  * for when users need to type things
  */
-export async function answer(msg) {
-  console.log(`answering "${msg}"`);
+export /* async */ function answer(msg, name) {
+  console.log(`answering "${msg}"${name ? ` for ${name}` : ``}`);
   return new Promise((resolve) =>
     setTimeout(() => resolve(stdin.write(`${msg}\n`)), 10),
   );
@@ -24,7 +26,7 @@ export async function answer(msg) {
  * obviously
  */
 export function randomDockerProjectName() {
-  return `docker-project-${randomUUID().substring(0, 8)}`;
+  return `${TEST_PREFIX}-${randomUUID().substring(0, 8)}`;
 }
 
 /**
@@ -115,9 +117,13 @@ export function createAdminUser(slug) {
   return user;
 }
 
+export const WITH_SETTINGS = true;
+export const WITHOUT_SETTINGS = false;
+
 export function createProject(
   projectName = randomUUID(),
   usernameOrUser = randomUUID(),
+  withSettings = WITH_SETTINGS,
 ) {
   let user;
 
@@ -131,11 +137,20 @@ export function createProject(
   User.enableUser(user);
 
   const project = Project.createProjectForUser(user, projectName);
+
+  if (!withSettings) {
+    delete project.settings;
+  }
+
   return project;
 }
 
-export function createStarterProject(projectName, usernameOrUser) {
-  const project = createProject(projectName, usernameOrUser);
+export function createStarterProject(
+  projectName,
+  usernameOrUser,
+  withSettings = WITH_SETTINGS,
+) {
+  const project = createProject(projectName, usernameOrUser, withSettings);
   Models.StarterProject.create({ project_id: project.id });
   return project;
 }

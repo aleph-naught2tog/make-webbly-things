@@ -1,5 +1,6 @@
 import { execSync } from "node:child_process";
 import { checkFor, STDIO } from "./utils.js";
+import { BYPASS_CADDY, BYPASS_DOCKER } from "../helpers.js";
 
 /**
  * Verify we have all the tools necessary to run the codebase.
@@ -7,9 +8,9 @@ import { checkFor, STDIO } from "./utils.js";
 export function checkDependencies() {
   const missing = [];
   checkForGit(missing);
-  checkForCaddy(missing);
+  BYPASS_CADDY && checkForCaddy(missing);
   checkForSqlite(missing);
-  const dockerRunning = checkForDocker(missing); // has to be last
+  const dockerRunning = BYPASS_DOCKER ? true : checkForDocker(missing); // has to be last
   if (missing.length) {
     throw new Error(`Missing dependencies: ${missing.join(`, `)}`);
   }
@@ -33,12 +34,17 @@ function checkForCaddy(missing) {
  * that running in the background.
  */
 function checkForDocker(missing) {
-  checkFor(`docker`, missing);
+  // Note: we can't get env vars from helper.js here, because the env may
+  //       have changed _after_ helpers.js got loaded in, and there is no
+  //       "reload this module" instruction in ESM.
+  const { DOCKER_EXECUTABLE: DOCKER } = process.env;
+
+  checkFor(DOCKER, missing);
+
   try {
-    execSync(`docker ps`, { shell: true, stdio: STDIO });
+    execSync(`${DOCKER} ps`, { shell: true, stdio: STDIO });
     return true;
   } catch (e) {}
-  return false;
 }
 
 /**

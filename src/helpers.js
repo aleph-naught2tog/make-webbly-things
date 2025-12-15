@@ -1,12 +1,20 @@
-import net from 'node:net';
-import { join, resolve, sep, posix } from 'node:path';
-import { exec } from 'node:child_process';
-import { existsSync, globSync, lstatSync, readFileSync } from 'node:fs';
-import * as AuthSettings from './server/routing/auth/settings.js';
-import express from 'express';
-import nocache from 'nocache';
-import helmet from 'helmet';
-import asciify from 'any-ascii';
+import net from "node:net";
+import { join, resolve, sep, posix } from "node:path";
+import { exec } from "node:child_process";
+import { existsSync, globSync, lstatSync, readFileSync } from "node:fs";
+import * as AuthSettings from "./server/routing/auth/settings.js";
+import express from "express";
+import nocache from "nocache";
+import helmet from "helmet";
+import asciify from "any-ascii";
+import { parseEnvironment } from "./parse-environment.js";
+
+parseEnvironment();
+
+export const BYPASS_DEPENDENCIES = !!process.env.BYPASS_DEPENDENCIES;
+export const BYPASS_DOCKER = !!process.env.BYPASS_DOCKER || BYPASS_DEPENDENCIES;
+export const BYPASS_CADDY = !!process.env.BYPASS_CADDY || BYPASS_DEPENDENCIES;
+export const DOCKER = process.env.DOCKER_EXECUTABLE || `unknown`;
 
 export const TESTING = process.env.NODE_ENV === `TESTING`;
 export const isWindows = process.platform === `win32`;
